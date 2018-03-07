@@ -1,4 +1,4 @@
-# A SIMPLE JPA APPLICATION
+# A Simple JPA Application
 
 [![MIT License](https://img.shields.io/badge/license-MIT%20License-green.svg)](https://github.com/SolangeUG/simple-jpa-application/blob/master/LICENSE)
 [![Java Platform](https://img.shields.io/badge/platform-Java-blue.svg)](https://docs.oracle.com/en/java/)
