@@ -13,19 +13,21 @@ import java.util.List;
  * REST API controller
  * @author Solange U. Gasengayire
  */
+@CrossOrigin
 @RestController
-@RequestMapping("/user")
+@RequestMapping(value = "${application.api.path}",
+                produces = {"application/json; charset=UTF-8"})
 public class UserController {
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     /**
      * Return the user with a given id
      * @param id the user id
      * @return the corresponding user
      */
-    @GetMapping(value = "/getUser/{userId}")
+    @GetMapping(value = "${application.api.users.endpoint}/{userId}")
     public ResponseEntity<UserDto> getUserById(@PathVariable Long id) {
         UserDto userDto = userService.getUserById(id);
         if (userDto == null) {
@@ -38,7 +40,8 @@ public class UserController {
      * Return a list of all users
      * @return users list
      */
-    @GetMapping(value = "/getAllUsers")
+    @ResponseBody
+    @GetMapping(value = "${application.api.users.endpoint}")
     public ResponseEntity<List<UserDto>> getAllUsers() {
         List<UserDto> userDtos = userService.getAllUsers();
         if (userDtos == null) {
@@ -51,7 +54,8 @@ public class UserController {
      * Save a user
      * @param userDto user to save
      */
-    @PostMapping(value = "/saveUser")
+    @ResponseBody
+    @PostMapping(value = "${application.api.users.endpoint}")
     public ResponseEntity<UserDto> saveUser(@RequestBody UserDto userDto) {
         UserDto result = userService.saveUser(userDto);
         if (result == null) {
