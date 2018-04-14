@@ -11,6 +11,8 @@ public class UserDto {
 
     private Long userId;
     private String userName;
+    private String firstName;
+    private String lastName;
     private List<RoleDto> roleDtos;
 
     /**
@@ -26,10 +28,24 @@ public class UserDto {
      * @param name this dto's name
      * @param roleDtoList this dto's list of role dtos
      */
-    public UserDto(Long id, String name, List<RoleDto> roleDtoList) {
+    private UserDto(Long id, String name, List<RoleDto> roleDtoList) {
         this.userId = id;
         this.userName = name;
         this.roleDtos = roleDtoList;
+    }
+
+    /**
+     * Constructor
+     * @param id this dto's id
+     * @param name this dto's user name
+     * @param firstName this dto's first name
+     * @param lastName this dto's last name
+     * @param roleDtoList this dto's list of role dtos
+     */
+    public UserDto(Long id, String name, String firstName, String lastName, List<RoleDto> roleDtoList) {
+        this(id, name, roleDtoList);
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
     /**
@@ -62,6 +78,38 @@ public class UserDto {
      */
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    /**
+     * Return this dto's first name
+     * @return the first name
+     */
+    public String getFirstName() {
+        return firstName;
+    }
+
+    /**
+     * Set this dto's first name
+     * @param firstName the name to be set
+     */
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    /**
+     * Return this dto's last name
+     * @return the last name
+     */
+    public String getLastName() {
+        return lastName;
+    }
+
+    /**
+     * Set this dto's last name
+     * @param lastName the name to be set
+     */
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     /**

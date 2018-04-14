@@ -18,8 +18,10 @@ public class UserConverter {
      * @return the corresponding entity
      */
     public static User convert(@NonNull UserDto userDto) {
-        User user = new User(userDto.getUserName());
-        user.setUserId(userDto.getUserId());
+        User user = new User(userDto.getUserId(),
+                                userDto.getUserName(),
+                                userDto.getFirstName(),
+                                userDto.getLastName());
         user.setRoles(userDto
                         .getRoleDtos()
                         .stream()
@@ -34,7 +36,11 @@ public class UserConverter {
      * @return the corresponding dto
      */
     public static UserDto convert(@NonNull User user) {
-        UserDto userDto = new UserDto(user.getUserId(), user.getUserName(), null);
+        UserDto userDto = new UserDto(user.getUserId(),
+                                        user.getUserName(),
+                                        user.getFirstName(),
+                                        user.getLastName(),
+                              null);
         userDto.setRoleDtos(user
                                 .getRoles()
                                 .stream()

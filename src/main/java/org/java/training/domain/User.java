@@ -18,6 +18,12 @@ public class User implements Serializable {
     @Column
     private String userName;
 
+    @Column
+    private String firstName;
+
+    @Column
+    private String lastName;
+
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Role> roles;
 
@@ -36,6 +42,20 @@ public class User implements Serializable {
     public User(String userName) {
         super();
         this.userName = userName;
+    }
+
+    /**
+     * Constructor
+     * @param id user ID
+     * @param userName user name
+     * @param firstName user's first name
+     * @param lastName user's last name
+     */
+    public User(Long id, String userName, String firstName, String lastName) {
+        this(userName);
+        this.userId = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
     /**
@@ -71,6 +91,38 @@ public class User implements Serializable {
     }
 
     /**
+     * Return this user's first name
+     * @return first name
+     */
+    public String getFirstName() {
+        return firstName;
+    }
+
+    /**
+     * Set this user's first name
+     * @param firstName the name to be set
+     */
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    /**
+     * Return this user's last name
+     * @return last name
+     */
+    public String getLastName() {
+        return lastName;
+    }
+
+    /**
+     * Set this user's last name
+     * @param lastName the name to be set
+     */
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    /**
      * Return this user's roles
      * @return the roles
      */
@@ -92,6 +144,7 @@ public class User implements Serializable {
      */
     @Override
     public String toString() {
-        return String.format("User [userId=%s, userName=%s]", userId, userName);
+        return String.format("User [userId=%s, userName=%s, firstName=%s, lastName=%s]",
+                             userId, userName, firstName, lastName);
     }
 }
