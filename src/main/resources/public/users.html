@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+    <head>
+        <title>Users Spring Boot App | HTML5 Client</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+        <link rel="stylesheet"
+              href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+              integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+              crossorigin="anonymous">
+        <link href='https://fonts.googleapis.com/css?family=Kalam' rel='stylesheet'>
+        <link rel="stylesheet" href="styles/main.css">
+        <!-- AngularJS controller-->
+        <script src="scripts/UserController.js"></script>
+    </head>
+    <body>
+        <div ng-controller="Users" ng-init="getUsers()">
+            <h1>Spring Boot REST User App</h1>
+            <div class="click-element animate-show" ng-show="showListUsers">
+                <h2>Users</h2>
+                <form>
+
+                    <div class="col-xs-3">
+                        <input class="form-control " type="text"  id="searchText" ng-model="searchText">
+                    </div>
+                    <div class="col-xs-2">
+                        <select id="searchType" class="form-control" ng-model="searchType">
+                            <option value="username">By user name</option>
+                            <option value="role">By role</option>
+                        </select>
+                    </div>
+                    <div class="col-xs-1">
+                        <button class="btn btn-success" id="searchButton" type="button" ng-click="searchUsers()">
+                            <span class="glyphicon glyphicon-search"></span> Search
+                        </button>
+                    </div>
+                    <div class="col-xs-4">
+                        <button class="btn btn-danger" id="homeButton" type="button" ng-click="getUsers()">
+                            <span class="glyphicon glyphicon-home"></span>
+                        </button>
+                    </div>
+                </form>
+                <input class="btn btn-primary" id="addButton" value="Add New" type="button"
+                       ng-click="showDivs(false);reset(form)" >
+
+            </div>
+
+            <br/>
+            <br/>
+
+            <div id="people" class="container click-element animate-show" ng-show="showListUsers">
+                <div class="row">
+                    <div class ="peopleItem col-sm-3" ng-repeat="user in users" ng-click="getUserById(user.id)"
+                         style="cursor: pointer">
+                        <div class="photos"  ng-show="user.photo != null && user.photo.length != 0">
+                            <img src="data:image/png;base64, {{user.photo}}" style="width:120px; height:120px"/>
+                        </div>
+                        <div class="photos" ng-show="user.photo == null || user.photo.length == 0">
+                            <img src="images/user-silhouette.png" style="width:120px; height:120px"/> </div>
+                        <div class="peopleContent">
+                            <h4>{{user.firstName}} {{user.lastName}}</h4>
+                            {{user.userName}}<br>
+                            <ul ng-repeat="role in user.roleDtos">
+                                <li><small>{{role.roleName}}</small></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div ng-show="!users.length" class="alert alert-info col-sm-7">
+                    No user found matching your search criteria
+                </div>
+            </div>
+
+
+            <div class="col-sm-5 col-md-offset-2">
+                <div class="panel panel-info click-element animate-show" ng-show="showNewForm">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            <div id="formTitle" ng-model="formTitle" style="padding:10px"> {{formTitle}}
+                                <button class="btn btn-primary" id="delete"
+                                        type="button"
+                                        ng-click="deleteUser()"
+                                        ng-show="showPhoto" style="float: right; position: relative; bottom: 9px;">
+                                    <span class="glyphicon glyphicon-trash"></span> Delete
+                                </button>
+                            </div>
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        <form class="form-horizontal" name="form" novalidate ng-submit="form.$valid && submitUser()">
+                            <input type="text" id="id" ng-model="id" value=""  style="display: none;">
+                            <div class="photo" ng-show="showPhoto && photo != null && photo != 0">
+                                <img src="data:image/png;base64, {{photo}}"/>
+                            </div>
+                            <div class="photos" ng-show="photo == null || photo.length == 0">
+                                <img src="images/user-silhouette.png" style="width:120px; height:120px"/>
+                            </div>
+
+                            <div class="form-group" ng-class="{ 'has-error': form.firstName.$invalid && form.$submitted}">
+                                <label class="control-label col-xs-3" for="firstName">First Name:</label>
+                                <div class="col-xs-5">
+                                    <input type="text" id="firstName" name="firstName"
+                                           ng-model="firstName" value="" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="form-group" ng-class="{ 'has-error': form.lastName.$invalid && form.$submitted}">
+                                <label class="control-label col-xs-3" for="lastName">Last Name:</label>
+                                <div class="col-xs-5">
+                                    <input type="text" id="lastName" name="lastName" ng-model="lastName" value=""
+                                           class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="form-group" ng-class="{ 'has-error': form.userName.$invalid && form.$submitted}">
+                                <label class="control-label col-xs-3" for="userName">Username:</label>
+                                <div class="col-xs-5">
+                                    <input type="text" id="userName" name="userName" ng-model="userName" value=""
+                                           class="form-control" required>
+                                </div>
+                            </div>
+
+                            <!-- TODO: add a list group control to choose roles for the user -->
+
+                            <div class="form-group" ng-class="{ 'has-error': form.roleDtos.$invalid && form.$submitted}">
+                                <label class="control-label col-xs-3" for="role">Roles:</label>
+                                <div class="col-xs-5">
+                                    <input type="text" id="role" name="role" value=""  ng-model="role"
+                                           class="form-control" required>
+                                </div>
+                            </div>
+                            <br><br>
+                            <div style=" text-align: center;">
+                                <input type="button" tabindex="-1" class="btn btn-default" value="Cancel"
+                                       ng-click="showDivs(true)">
+                                <input type="submit" tabindex="-1" class="btn btn-success" value="Save">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </body>
+</html>
