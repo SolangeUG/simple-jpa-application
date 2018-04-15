@@ -13,15 +13,16 @@ public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "userId")
     private Long userId;
 
-    @Column
+    @Column(name = "userName")
     private String userName;
 
-    @Column
+    @Column(name = "firstName")
     private String firstName;
 
-    @Column
+    @Column(name = "lastName")
     private String lastName;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -46,16 +47,26 @@ public class User implements Serializable {
 
     /**
      * Constructor
+     * @param userName user name
+     * @param firstName user's first name
+     * @param lastName user's last name
+     */
+    public User(String userName, String firstName, String lastName) {
+        this(userName);
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
+    /**
+     * Constructor
      * @param id user ID
      * @param userName user name
      * @param firstName user's first name
      * @param lastName user's last name
      */
     public User(Long id, String userName, String firstName, String lastName) {
-        this(userName);
+        this(userName, firstName, lastName);
         this.userId = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
     }
 
     /**
