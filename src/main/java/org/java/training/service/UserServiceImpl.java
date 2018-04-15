@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     /**
      * Find a user by their id
@@ -29,6 +29,18 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto getUserById(Long id) {
         User user = userRepository.getOne(id);
+        return UserConverter.convert(user);
+    }
+
+    /**
+     * Find a user by their username
+     *
+     * @param username the username
+     * @return the corresponding user
+     */
+    @Override
+    public UserDto getUserByUserName(String username) {
+        User user = userRepository.findByUserName(username);
         return UserConverter.convert(user);
     }
 

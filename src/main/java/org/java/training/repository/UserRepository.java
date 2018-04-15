@@ -11,4 +11,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
+    /**
+     * Find a user by their username
+     * @param userName the username criterion
+     * @return the corresponding user
+     */
+    User findByUserName(String userName);
 }

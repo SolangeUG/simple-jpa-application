@@ -18,6 +18,13 @@ public interface UserService {
     UserDto getUserById(Long id);
 
     /**
+     * Find a user by their username
+     * @param username the username
+     * @return the corresponding user
+     */
+    UserDto getUserByUserName(String username);
+
+    /**
      * Save a user
      * @param userDto the given user
      */
