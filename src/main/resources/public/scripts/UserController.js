@@ -1,10 +1,19 @@
+'use strict'
+
 /**
  * AngularJS Controller
  */
 var app = angular.module('app', [])
 
-.controller('Users', function($scope, $http) {
-	$scope.urlService = "http://localhost:8080/app/users";
+.controller('UserController', function($scope, $http) {
+
+    /**
+     * Controller initialization
+     */
+	$scope.userService = "http://localhost:8080/app/users";
+	$scope.roleService = "http://localhost:8080/app/roles";
+    var rolesList = $scope.getRoles();
+
 	$scope.showListUsers = true;
 	$scope.showPhoto = false;
 	$scope.photo = false;
@@ -18,7 +27,7 @@ var app = angular.module('app', [])
 			$scope.firstName = "";
 			$scope.lastName = "";
 			$scope.userName = "";
-			$scope.roles = "";
+			$scope.roles = rolesList;
 			$scope.showPhoto = false;
 			angular.element(document.getElementById("pic")).val(null);
 			$scope.showNewForm = true;
@@ -26,6 +35,9 @@ var app = angular.module('app', [])
 		}
 	}
 
+    /**
+     * Reset the user creation form
+     */
 	$scope.reset = function(form) {
         if (form) {
           form.$setPristine();
@@ -33,23 +45,34 @@ var app = angular.module('app', [])
         }
     };
 
+    /**
+     * Get role list
+     */
+    $scope.getRoles = function() {
+        $http.get($scope.roleService)
+            .then(function(response) {
+                $scope.roles = response.data;
+            });
+        $scope.searchText = "";
+    }
+
 	/**
 	 * Get user list
 	 */
-	$scope.getUsers = function(){
-		$http.get($scope.urlService).
-			then(function(response) {
+	$scope.getUsers = function() {
+		$http.get($scope.userService)
+		    .then(function(response) {
 				$scope.users = response.data;
-			});
+            });
 		$scope.searchText = "";
 	}
 
 	/**
-     * Get user by ID
+     * Get user by their id
      */
-	$scope.getUserById = function(id){
-		$http.get($scope.urlService+"/"+id).
-			then(function(response) {
+	$scope.getUserById = function(id) {
+		$http.get($scope.userService + "/id/" + id)
+		    .then(function(response) {
 				$scope.user = response.data;
 				$scope.showDetail();
 			});
@@ -57,45 +80,54 @@ var app = angular.module('app', [])
 	}
 
 	/**
-     * Add/Update user
+     * Add/Update a user
      */
 	$scope.submitUser = function() {
-		var addUser={
-				  id:$scope.id,
-                  firstName:$scope.firstName,
-                  lastName:$scope.lastName,
-                  userName:$scope.userName,
-                  // TODO: make sure you get all the assigned roles
-                  roles:$scope.roles,
-                };
+		var addUser = {
+		    id : $scope.id,
+            firstName : $scope.firstName,
+            lastName : $scope.lastName,
+            userName : $scope.userName,
+            // TODO: make sure you get all the assigned roles
+            roles : $scope.roles,
+        };
 
 		var res;
 
 		if ($scope.id == "") {
-			res = $http.post($scope.urlService, JSON.stringify(addUser), {
-				headers: { 'Content-Type': 'application/json'}
-				});
+		    // create user
+			res = $http.post(
+			        $scope.userService,
+			        JSON.stringify(addUser),
+			        {headers: { 'Content-Type': 'application/json'}}
+            );
 		} else {
-			res = $http.put($scope.urlService+"/"+$scope.id, JSON.stringify(addUser), {
-				headers: { 'Content-Type': 'application/json'}});
+		    // update user
+			res = $http.put(
+			        $scope.userService + "/" + $scope.id,
+			        JSON.stringify(addUser),
+			        {headers: { 'Content-Type': 'application/json'}}
+            );
 		}
+
+		// on request success
 		res.success(function(data, status, headers, config) {
 			$scope.message = data;
 			$scope.getUsers();
 			$scope.showDivs(true);
-
 		});
+
+		// on request error
 		res.error(function(data, status, headers, config) {
 			alert( "failure message: " + JSON.stringify({data: data}));
 		});
-
 	}
 
 	/**
-     * Delete user
+     * Delete a user
      */
 	$scope.deleteUser = function() {
-		res = $http.delete($scope.urlService+"/"+$scope.id);
+		res = $http.delete($scope.userService+"/"+$scope.id);
 		res.success(function(data, status, headers, config) {
 			$scope.getUsers();
 			$scope.showDivs(true);
@@ -110,8 +142,8 @@ var app = angular.module('app', [])
      * Search users
      */
 	$scope.searchUsers = function() {
-		$http.get($scope.urlService+"/"+$scope.searchType+"/"+$scope.searchText).
-			then(function(response) {
+		$http.get($scope.userService + "/" + $scope.searchType + "/" + $scope.searchText)
+		    .then(function(response) {
 				$scope.users = response.data;
 			});
 	}
@@ -123,6 +155,7 @@ var app = angular.module('app', [])
 		$scope.showDivs(false);
 		$scope.showPhoto = true;
 		$scope.formTitle = "Update User"
+
 		$scope.id = $scope.user.id;
 		$scope.photo = $scope.user.photo;
 		$scope.firstName = $scope.user.firstName;
