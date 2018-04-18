@@ -1,4 +1,4 @@
-package org.java.training.application;
+package org.java.training;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
