@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * REST API controller
+ * Users REST API controller
  * @author Solange U. Gasengayire
  */
 @CrossOrigin
