@@ -27,9 +27,24 @@ public class UserController {
      * @param id the user id
      * @return the corresponding user
      */
-    @GetMapping(value = "${application.api.users.endpoint}/{userId}")
+    @GetMapping(value = "${application.api.users.endpoint}/id/{userId}")
     public ResponseEntity<UserDto> getUserById(@PathVariable Long id) {
         UserDto userDto = userService.getUserById(id);
+        if (userDto == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(userDto, HttpStatus.OK);
+    }
+
+    /**
+     * Return the user with a given username
+     * @param username the username
+     * @return the corresponding user
+     */
+    @ResponseBody
+    @GetMapping(value = "${application.api.users.endpoint}/username/{username}")
+    public ResponseEntity<UserDto> getUserByUserName(@PathVariable String username) {
+        UserDto userDto = userService.getUserByUserName(username);
         if (userDto == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
