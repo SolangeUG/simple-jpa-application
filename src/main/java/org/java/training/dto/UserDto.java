@@ -36,6 +36,18 @@ public class UserDto {
 
     /**
      * Constructor
+     * @param name username
+     * @param firstName this dto's firstname
+     * @param lastName this dto's lastname
+     */
+    private UserDto(String name, String firstName, String lastName) {
+        this.userName = name;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
+    /**
+     * Constructor
      * @param id this dto's id
      * @param name this dto's user name
      * @param firstName this dto's first name
