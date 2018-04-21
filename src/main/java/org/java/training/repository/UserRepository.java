@@ -16,5 +16,28 @@ public interface UserRepository extends JpaRepository<User, Long> {
      * @param userName the username criterion
      * @return the corresponding user
      */
-    User findByUserName(String userName);
+    default User findByUserName(String userName) {
+        // TODO : implement
+        return  null;
+    }
+
+    /**
+     * Find a user by their first name
+     * @param firstName the firstname criterion
+     * @return the corresponding user
+     */
+    default User findByFirstName(String firstName) {
+        // TODO: implement
+        return null;
+    }
+
+    /**
+     * Find a user by their last name
+     * @param lastName the lastname criterion
+     * @return the corresponding user
+     */
+    default User findByLastName(String lastName) {
+        // TODO: implement
+        return null;
+    }
 }
