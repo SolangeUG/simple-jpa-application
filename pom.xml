@@ -10,7 +10,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<userName>simple-jpa-application</userName>
+	<name>simple-jpa-application</name>
 	<description>A simple JPA project with Spring Boot</description>
 
 	<parent>
