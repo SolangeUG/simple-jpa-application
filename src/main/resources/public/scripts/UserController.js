@@ -12,7 +12,7 @@ var app = angular.module('app', [])
      */
 	$scope.userService = "http://localhost:8080/app/users";
 	$scope.roleService = "http://localhost:8080/app/roles";
-    var rolesList = $scope.getRoles();
+    var rolesList = $scope.getRoles;
 
 	$scope.showListUsers = true;
 	$scope.showPhoto = false;
