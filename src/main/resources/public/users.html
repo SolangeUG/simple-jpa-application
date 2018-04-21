@@ -90,9 +90,11 @@
                     <div class="panel-body">
                         <form class="form-horizontal" name="form" novalidate ng-submit="form.$valid && submitUser()">
                             <input type="text" id="id" ng-model="id" value=""  style="display: none;">
+                            <!--
                             <div class="photo" ng-show="showPhoto && photo != null && photo != 0">
                                 <img src="data:image/png;base64, {{photo}}"/>
                             </div>
+                            -->
                             <div class="photos" ng-show="photo == null || photo.length == 0">
                                 <img src="images/user-silhouette.png" style="width:120px; height:120px"/>
                             </div>
@@ -124,8 +126,14 @@
                             <div class="form-group" ng-class="{ 'has-error': form.roleDtos.$invalid && form.$submitted}">
                                 <label class="control-label col-xs-3" for="role">Roles:</label>
                                 <div class="col-xs-5">
-                                    <input type="text" id="role" name="role" value=""  ng-model="role"
-                                           class="form-control" required>
+                                    <select id="role" class="mdb-select colorful-select dropdown-primary" multiple searchable="Search roles...">
+                                        <option value="" disabled selected>Choose roles</option>
+                                        <div ng-repeat="roleDto in user.roleDtos" ng-model="roles">
+                                            <option value="roleDto.roleId">{{roleDto.roleName}}</option>
+                                        </div>
+                                    </select>
+                                    <!--<input type="text" id="role" name="role" value=""  ng-model="role"-->
+                                           <!--class="form-control" required>-->
                                 </div>
                             </div>
                             <br><br>
