@@ -41,6 +41,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto getUserByUserName(String username) {
         User user = userRepository.findByUserName(username);
+        if (user == null) {
+            return null;
+        }
         return UserConverter.convert(user);
     }
 
