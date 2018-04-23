@@ -12,7 +12,6 @@ var app = angular.module('app', [])
      */
 	$scope.userService = "http://localhost:8080/app/users";
 	$scope.roleService = "http://localhost:8080/app/roles";
-    var rolesList = $scope.getRoles;
 
 	$scope.showListUsers = true;
 	$scope.showPhoto = false;
@@ -27,7 +26,6 @@ var app = angular.module('app', [])
 			$scope.firstName = "";
 			$scope.lastName = "";
 			$scope.userName = "";
-			$scope.roles = rolesList;
 			$scope.showPhoto = false;
 			angular.element(document.getElementById("pic")).val(null);
 			$scope.showNewForm = true;
@@ -89,7 +87,7 @@ var app = angular.module('app', [])
             lastName : $scope.lastName,
             userName : $scope.userName,
             // TODO: make sure you get all the assigned roles
-            roles : $scope.roles,
+            roleDtos : $scope.roles,
         };
 
 		var res;
@@ -127,7 +125,7 @@ var app = angular.module('app', [])
      * Delete a user
      */
 	$scope.deleteUser = function() {
-		res = $http.delete($scope.userService+"/"+$scope.id);
+		res = $http.delete($scope.userService + "/" + $scope.id);
 		res.success(function(data, status, headers, config) {
 			$scope.getUsers();
 			$scope.showDivs(true);
