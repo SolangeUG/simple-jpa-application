@@ -9,6 +9,7 @@ import java.util.List;
  * @author Solange U. Gasengayire
  */
 @Entity
+@Table(name = "roles")
 public class Role implements Serializable {
 
     @Id
@@ -19,7 +20,7 @@ public class Role implements Serializable {
     @Column(name = "roleName")
     private String roleName;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "roles")
     private List<User> users;
 
     /**
