@@ -82,7 +82,6 @@ var app = angular.module('app', [])
      */
 	$scope.submitUser = function() {
 		var addUser = {
-		    id : $scope.id,
             firstName : $scope.firstName,
             lastName : $scope.lastName,
             userName : $scope.userName,
