@@ -1,12 +1,12 @@
 -- Some Initial Data
-INSERT INTO Role VALUES (101, 'Administrator');
+INSERT INTO roles VALUES (101, 'Administrator');
 
-INSERT INTO Role VALUES (102, 'Site Administrator');
+INSERT INTO roles VALUES (102, 'Site Administrator');
 
-INSERT INTO Role VALUES (103, 'Senior Manager');
+INSERT INTO roles VALUES (103, 'Senior Manager');
 
-INSERT INTO Role VALUES (104, 'Site Manager');
+INSERT INTO roles VALUES (104, 'Site Manager');
 
-INSERT INTO Role VALUES (105, 'Field Worker');
+INSERT INTO roles VALUES (105, 'Field Worker');
 
-INSERT INTO Role VALUES (106, 'User');
+INSERT INTO roles VALUES (106, 'User');
