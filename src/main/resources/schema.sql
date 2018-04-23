@@ -13,3 +13,11 @@ CREATE TABLE IF NOT EXISTS users (
     lastName    VARCHAR(255)    NOT NULL,
     PRIMARY KEY(userId)
 );
+
+-- user_roles: store roles for users
+CREATE TABLE IF NOT EXISTS user_role (
+    userRoleId  INT     NOT NULL,
+    userId      INT     REFERENCES roles(roleId),
+    roleId      INT     REFERENCES users(userId),
+    PRIMARY KEY(userRoleId)
+);
