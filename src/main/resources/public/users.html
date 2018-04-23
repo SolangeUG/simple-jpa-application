@@ -11,6 +11,12 @@
               href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
               integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
               crossorigin="anonymous">
+
+        <!-- Font Awesome Icons -->
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css"
+              integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg"
+              crossorigin="anonymous">
+
         <!-- Own stylesheet -->
         <link rel="stylesheet" href="styles/main.css">
         <!-- AngularJS controller-->
@@ -21,7 +27,7 @@
     <header>
         <!-- Fixed navbar -->
         <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="/">
                 <img src="./images/users.png" alt="Users Application">
                 <span id="appTitle">Users Spring Boot Application</span>
             </a>
@@ -47,10 +53,13 @@
     </header>
 
     <main role="main" class="container" ng-controller="UserController" ng-init="getUsers()">
-        <h1>Users</h1>
-        <div class="click-element animate-show" ng-show="showListUsers">
-            <input class="btn btn-primary" id="addButton" value="Add New" type="button"
-                   ng-click="showDivs(false);reset(form)">
+
+        <h1 class="text-center">Users</h1>
+        <div class="d-flex" ng-show="showListUsers">
+            <ul></ul>
+            <button type="button" class="btn btn-info ml-auto p-2" ng-click="showDivs(false);reset(form)">
+                <i class="fas fa-user-plus" style="size: 2x"></i>
+            </button>
         </div>
 
         <br/>
@@ -60,9 +69,6 @@
             <div class="row">
                 <div class ="peopleItem col-sm-3" ng-repeat="user in users" ng-click="getUserById(user.id)"
                      style="cursor: pointer">
-                    <div class="photos"  ng-show="user.photo != null && user.photo.length != 0">
-                        <img src="data:image/png;base64, {{user.photo}}" style="width:120px; height:120px"/>
-                    </div>
                     <div class="photos" ng-show="user.photo == null || user.photo.length == 0">
                         <img src="images/user-silhouette.png" style="width:120px; height:120px"/> </div>
                     <div class="peopleContent">
@@ -74,14 +80,14 @@
                     </div>
                 </div>
             </div>
-            <div ng-show="!users.length" class="alert alert-info col-sm-7">
+            <div ng-show="!users.length" class="alert alert-info text-center" role="alert">
                 No user found matching your search criteria
             </div>
         </div>
 
 
         <div class="col-md-6 offset-md-3">
-            <div class="card card-info click-element animate-show" ng-show="showNewForm">
+            <div class="card card-info click-element animate-show" ng-show="showNewForm" ng-init="getRoles()">
                 <div class="card-header">
                     <h3 class="card-title">
                         <div id="formTitle" ng-model="formTitle"> {{formTitle}}
@@ -129,26 +135,25 @@
                             </div>
                         </div>
 
-                        <!-- TODO: add a list group control to choose roles for the user -->
-
                         <div class="form-group" ng-class="{ 'has-error': form.roleDtos.$invalid && form.$submitted}">
                             <label class="control-label col-xs-3" for="role">Roles:</label>
                             <div class="col-xs-5">
                                 <select id="role" class="form-control" multiple>
                                     <option value="" disabled selected>Choose roles</option>
-                                    <div ng-repeat="roleDto in user.roleDtos" ng-model="roles">
-                                        <option value="roleDto.roleId">{{roleDto.roleName}}</option>
-                                    </div>
+                                    <option value="role.roleId" ng-repeat="role in roles" ng-model="roles">
+                                        {{role.roleName}}
+                                    </option>
                                 </select>
-                                <!--<input type="text" id="role" name="role" value=""  ng-model="role"-->
-                                       <!--class="form-control" required>-->
                             </div>
                         </div>
                         <br><br>
-                        <div style=" text-align: center;">
-                            <input type="button" tabindex="-1" class="btn btn-default" value="Cancel"
-                                   ng-click="showDivs(true)">
-                            <input type="submit" tabindex="-1" class="btn btn-success" value="Save">
+                        <div>
+                            <button type="button" class="btn btn-danger" ng-click="showDivs(true)">
+                                <i class="fas fa-times"></i>
+                            </button>
+                            <button type="button" class="btn btn-primary" ng-click="submitUser()">
+                                <i class="fas fa-check"></i>
+                            </button>
                         </div>
                     </form>
                 </div>
