@@ -65,15 +65,22 @@
         <br/>
         <br/>
 
-        <div id="people" class="container click-element animate-show" ng-show="showListUsers">
+        <div class="container" ng-show="showListUsers">
             <div class="row">
-                <div class ="peopleItem col-sm-3" ng-repeat="user in users" ng-click="getUserById(user.id)"
-                     style="cursor: pointer">
-                    <div class="photos" ng-show="user.photo == null || user.photo.length == 0">
-                        <img src="images/user-silhouette.png" style="width:120px; height:120px"/> </div>
-                    <div class="peopleContent">
-                        <h4>{{user.firstName}} {{user.lastName}}</h4>
-                        {{user.userName}}<br>
+                <div class ="card card-info" ng-repeat="user in users" ng-click="getUserById(user.id)">
+                    <div class="card-header">
+                        <div class="photos" ng-show="user.photo == null || user.photo.length == 0">
+                            <img src="images/user-silhouette.png"/>
+                            <!--<i class="fas fa-user-alt"></i>-->
+                        </div>
+                        <div class="card-title">
+                            <h4>{{user.firstName}} {{user.lastName}}</h4>
+                            {{user.userName}}
+                            <br>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <label class="control-label col-xs-3">Roles:</label>
                         <ul ng-repeat="role in user.roleDtos">
                             <li><small>{{role.roleName}}</small></li>
                         </ul>
@@ -87,7 +94,7 @@
 
 
         <div class="col-md-6 offset-md-3">
-            <div class="card card-info click-element animate-show" ng-show="showNewForm" ng-init="getRoles()">
+            <div class="card card-info ng-show="showNewForm" ng-init="getRoles()">
                 <div class="card-header">
                     <h3 class="card-title">
                         <div id="formTitle" ng-model="formTitle"> {{formTitle}}
