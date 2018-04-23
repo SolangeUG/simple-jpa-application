@@ -17,138 +17,154 @@
         <script src="scripts/UserController.js"></script>
     </head>
     <body>
-        <div ng-controller="UserController" ng-init="getUsers()">
-            <h1>Spring Boot REST User App</h1>
-            <div class="click-element animate-show" ng-show="showListUsers">
-                <h2>Users</h2>
-                <form>
 
-                    <div class="col-xs-3">
-                        <input class="form-control " type="text"  id="searchText" ng-model="searchText">
-                    </div>
-                    <div class="col-xs-2">
-                        <select id="searchType" class="form-control" ng-model="searchType">
-                            <option value="username">By user name</option>
-                            <option value="role">By role</option>
-                        </select>
-                    </div>
-                    <div class="col-xs-1">
-                        <button class="btn btn-success" id="searchButton" type="button" ng-click="searchUsers()">
-                            <span class="glyphicon glyphicon-search"></span> Search
-                        </button>
-                    </div>
-                    <div class="col-xs-4">
-                        <button class="btn btn-danger" id="homeButton" type="button" ng-click="getUsers()">
-                            <span class="glyphicon glyphicon-home"></span>
-                        </button>
-                    </div>
+    <header>
+        <!-- Fixed navbar -->
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+            <a class="navbar-brand" href="#">
+                <img src="./images/users.png" alt="Users Application">
+                <span id="appTitle">Users Spring Boot Application</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+                    aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav mr-auto"></ul>
+                <form class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+                    <select id="searchType" class="form-control mr-sm-2 custom-select" ng-model="searchType">
+                        <option selected>Choose...</option>
+                        <option value="username">By username</option>
+                        <option value="role">By role</option>
+                    </select>
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit" ng-click="searchUsers()">
+                        Search
+                    </button>
                 </form>
-                <input class="btn btn-primary" id="addButton" value="Add New" type="button"
-                       ng-click="showDivs(false);reset(form)" >
-
             </div>
+        </nav>
+    </header>
 
-            <br/>
-            <br/>
+    <main role="main" class="container" ng-controller="UserController" ng-init="getUsers()">
+        <h1>Users</h1>
+        <div class="click-element animate-show" ng-show="showListUsers">
+            <input class="btn btn-primary" id="addButton" value="Add New" type="button"
+                   ng-click="showDivs(false);reset(form)">
+        </div>
 
-            <div id="people" class="container click-element animate-show" ng-show="showListUsers">
-                <div class="row">
-                    <div class ="peopleItem col-sm-3" ng-repeat="user in users" ng-click="getUserById(user.id)"
-                         style="cursor: pointer">
-                        <div class="photos"  ng-show="user.photo != null && user.photo.length != 0">
-                            <img src="data:image/png;base64, {{user.photo}}" style="width:120px; height:120px"/>
-                        </div>
-                        <div class="photos" ng-show="user.photo == null || user.photo.length == 0">
-                            <img src="images/user-silhouette.png" style="width:120px; height:120px"/> </div>
-                        <div class="peopleContent">
-                            <h4>{{user.firstName}} {{user.lastName}}</h4>
-                            {{user.userName}}<br>
-                            <ul ng-repeat="role in user.roleDtos">
-                                <li><small>{{role.roleName}}</small></li>
-                            </ul>
-                        </div>
+        <br/>
+        <br/>
+
+        <div id="people" class="container click-element animate-show" ng-show="showListUsers">
+            <div class="row">
+                <div class ="peopleItem col-sm-3" ng-repeat="user in users" ng-click="getUserById(user.id)"
+                     style="cursor: pointer">
+                    <div class="photos"  ng-show="user.photo != null && user.photo.length != 0">
+                        <img src="data:image/png;base64, {{user.photo}}" style="width:120px; height:120px"/>
                     </div>
-                </div>
-                <div ng-show="!users.length" class="alert alert-info col-sm-7">
-                    No user found matching your search criteria
+                    <div class="photos" ng-show="user.photo == null || user.photo.length == 0">
+                        <img src="images/user-silhouette.png" style="width:120px; height:120px"/> </div>
+                    <div class="peopleContent">
+                        <h4>{{user.firstName}} {{user.lastName}}</h4>
+                        {{user.userName}}<br>
+                        <ul ng-repeat="role in user.roleDtos">
+                            <li><small>{{role.roleName}}</small></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-
-
-            <div class="col-sm-5 col-md-offset-2">
-                <div class="panel panel-info click-element animate-show" ng-show="showNewForm">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">
-                            <div id="formTitle" ng-model="formTitle" style="padding:10px"> {{formTitle}}
-                                <button class="btn btn-primary" id="delete"
-                                        type="button"
-                                        ng-click="deleteUser()"
-                                        ng-show="showPhoto" style="float: right; position: relative; bottom: 9px;">
-                                    <span class="glyphicon glyphicon-trash"></span> Delete
-                                </button>
-                            </div>
-                        </h3>
-                    </div>
-                    <div class="panel-body">
-                        <form class="form-horizontal" name="form" novalidate ng-submit="form.$valid && submitUser()">
-                            <input type="text" id="id" ng-model="id" value=""  style="display: none;">
-                            <!--
-                            <div class="photo" ng-show="showPhoto && photo != null && photo != 0">
-                                <img src="data:image/png;base64, {{photo}}"/>
-                            </div>
-                            -->
-                            <div class="photos" ng-show="photo == null || photo.length == 0">
-                                <img src="images/user-silhouette.png" style="width:120px; height:120px"/>
-                            </div>
-
-                            <div class="form-group" ng-class="{ 'has-error': form.firstName.$invalid && form.$submitted}">
-                                <label class="control-label col-xs-3" for="firstName">First Name:</label>
-                                <div class="col-xs-5">
-                                    <input type="text" id="firstName" name="firstName"
-                                           ng-model="firstName" value="" class="form-control" required>
-                                </div>
-                            </div>
-                            <div class="form-group" ng-class="{ 'has-error': form.lastName.$invalid && form.$submitted}">
-                                <label class="control-label col-xs-3" for="lastName">Last Name:</label>
-                                <div class="col-xs-5">
-                                    <input type="text" id="lastName" name="lastName" ng-model="lastName" value=""
-                                           class="form-control" required>
-                                </div>
-                            </div>
-                            <div class="form-group" ng-class="{ 'has-error': form.userName.$invalid && form.$submitted}">
-                                <label class="control-label col-xs-3" for="userName">Username:</label>
-                                <div class="col-xs-5">
-                                    <input type="text" id="userName" name="userName" ng-model="userName" value=""
-                                           class="form-control" required>
-                                </div>
-                            </div>
-
-                            <!-- TODO: add a list group control to choose roles for the user -->
-
-                            <div class="form-group" ng-class="{ 'has-error': form.roleDtos.$invalid && form.$submitted}">
-                                <label class="control-label col-xs-3" for="role">Roles:</label>
-                                <div class="col-xs-5">
-                                    <select id="role" class="mdb-select colorful-select dropdown-primary" multiple searchable="Search roles...">
-                                        <option value="" disabled selected>Choose roles</option>
-                                        <div ng-repeat="roleDto in user.roleDtos" ng-model="roles">
-                                            <option value="roleDto.roleId">{{roleDto.roleName}}</option>
-                                        </div>
-                                    </select>
-                                    <!--<input type="text" id="role" name="role" value=""  ng-model="role"-->
-                                           <!--class="form-control" required>-->
-                                </div>
-                            </div>
-                            <br><br>
-                            <div style=" text-align: center;">
-                                <input type="button" tabindex="-1" class="btn btn-default" value="Cancel"
-                                       ng-click="showDivs(true)">
-                                <input type="submit" tabindex="-1" class="btn btn-success" value="Save">
-                            </div>
-                        </form>
-                    </div>
-                </div>
+            <div ng-show="!users.length" class="alert alert-info col-sm-7">
+                No user found matching your search criteria
             </div>
         </div>
 
+
+        <div class="col-md-6 offset-md-3">
+            <div class="card card-info click-element animate-show" ng-show="showNewForm">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <div id="formTitle" ng-model="formTitle"> {{formTitle}}
+                            <button class="btn btn-primary" id="delete"
+                                    type="button"
+                                    ng-click="deleteUser()"
+                                    ng-show="showPhoto" style="float: right; position: relative; bottom: 9px;">
+                                <span class="glyphicon glyphicon-trash"></span> Delete
+                            </button>
+                        </div>
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <form class="form-horizontal" name="form" novalidate ng-submit="form.$valid && submitUser()">
+                        <input type="text" id="id" ng-model="id" value=""  style="display: none;">
+                        <!--
+                        <div class="photo" ng-show="showPhoto && photo != null && photo != 0">
+                            <img src="data:image/png;base64, {{photo}}"/>
+                        </div>
+                        -->
+                        <div class="photos" ng-show="photo == null || photo.length == 0">
+                            <img src="images/user-silhouette.png"/>
+                            <!--style="width:120px; height:120px"/>-->
+                        </div>
+
+                        <div class="form-group" ng-class="{ 'has-error': form.firstName.$invalid && form.$submitted}">
+                            <label class="control-label col-xs-3" for="firstName">First Name:</label>
+                            <div class="col-xs-5">
+                                <input type="text" id="firstName" name="firstName"
+                                       ng-model="firstName" value="" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-class="{ 'has-error': form.lastName.$invalid && form.$submitted}">
+                            <label class="control-label col-xs-3" for="lastName">Last Name:</label>
+                            <div class="col-xs-5">
+                                <input type="text" id="lastName" name="lastName" ng-model="lastName" value=""
+                                       class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-class="{ 'has-error': form.userName.$invalid && form.$submitted}">
+                            <label class="control-label col-xs-3" for="userName">Username:</label>
+                            <div class="col-xs-5">
+                                <input type="text" id="userName" name="userName" ng-model="userName" value=""
+                                       class="form-control" required>
+                            </div>
+                        </div>
+
+                        <!-- TODO: add a list group control to choose roles for the user -->
+
+                        <div class="form-group" ng-class="{ 'has-error': form.roleDtos.$invalid && form.$submitted}">
+                            <label class="control-label col-xs-3" for="role">Roles:</label>
+                            <div class="col-xs-5">
+                                <select id="role" class="form-control" multiple>
+                                    <option value="" disabled selected>Choose roles</option>
+                                    <div ng-repeat="roleDto in user.roleDtos" ng-model="roles">
+                                        <option value="roleDto.roleId">{{roleDto.roleName}}</option>
+                                    </div>
+                                </select>
+                                <!--<input type="text" id="role" name="role" value=""  ng-model="role"-->
+                                       <!--class="form-control" required>-->
+                            </div>
+                        </div>
+                        <br><br>
+                        <div style=" text-align: center;">
+                            <input type="button" tabindex="-1" class="btn btn-default" value="Cancel"
+                                   ng-click="showDivs(true)">
+                            <input type="submit" tabindex="-1" class="btn btn-success" value="Save">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Bootstrap related scripts -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"
+            integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
+            integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
+            crossorigin="anonymous"></script>
     </body>
 </html>
