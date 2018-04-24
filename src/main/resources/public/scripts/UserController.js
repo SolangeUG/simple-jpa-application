@@ -50,7 +50,7 @@ var app = angular.module('app', [])
         $http.get($scope.roleService)
             .then(function(response) {
                 $scope.roles = {
-                    selectedOptions: null,
+                    selectedOptions: {},
                     availableOptions: response.data
                 };
             });
@@ -86,13 +86,15 @@ var app = angular.module('app', [])
 	$scope.submitUser = function() {
 
 	    console.log("$scope.roles.selectedOptions are", $scope.roles.selectedOptions);
+	    console.log("$scope.roles.availableOptions are", $scope.roles.availableOptions);
 
 		var addUser = {
             firstName : $scope.firstName,
             lastName : $scope.lastName,
             userName : $scope.userName,
+
             // TODO: make sure you get all the assigned roles
-            roleDtos : $scope.roles.selectedOptions,
+            roleDtos : $scope.roles.selectedOptions
         };
 
 		var res;
@@ -114,16 +116,16 @@ var app = angular.module('app', [])
 		}
 
 		// on request success
-		res.success(function(data, status, headers, config) {
-			$scope.message = data;
-			$scope.getUsers();
-			$scope.showDivs(true);
-		});
-
-		// on request error
-		res.error(function(data, status, headers, config) {
-			alert( "failure message: " + JSON.stringify({data: data}));
-		});
+		res.then(
+		    function(data, status, headers, config) {
+                $scope.message = data;
+                $scope.getUsers();
+                $scope.showDivs(true);
+		}, // on request error
+		    function(data, status, headers, config) {
+                alert( "failure message: " + JSON.stringify({data: data}));
+            }
+		);
 	}
 
 	/**
@@ -131,14 +133,18 @@ var app = angular.module('app', [])
      */
 	$scope.deleteUser = function() {
 		res = $http.delete($scope.userService + "/" + $scope.id);
-		res.success(function(data, status, headers, config) {
-			$scope.getUsers();
-			$scope.showDivs(true);
 
-		});
-		res.error(function(data, status, headers, config) {
-			alert( "failure message: " + JSON.stringify({data: data}));
-		});
+		// success and error calls have been deprecated
+		// they are replaced with the syntax below:
+		res.then(
+		    function(data, status, headers, config) {
+                $scope.getUsers();
+                $scope.showDivs(true);
+        }, // on request error
+            function(data, status, headers, config) {
+                    alert( "failure message: " + JSON.stringify({data: data}));
+                }
+		);
 	}
 
 	/**
