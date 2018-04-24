@@ -49,7 +49,10 @@ var app = angular.module('app', [])
     $scope.getRoles = function() {
         $http.get($scope.roleService)
             .then(function(response) {
-                $scope.roles = response.data;
+                $scope.roles = {
+                    selectedOptions: null,
+                    availableOptions: response.data
+                };
             });
         $scope.searchText = "";
     }
@@ -81,12 +84,15 @@ var app = angular.module('app', [])
      * Add/Update a user
      */
 	$scope.submitUser = function() {
+
+	    console.log("$scope.roles.selectedOptions are", $scope.roles.selectedOptions);
+
 		var addUser = {
             firstName : $scope.firstName,
             lastName : $scope.lastName,
             userName : $scope.userName,
             // TODO: make sure you get all the assigned roles
-            roleDtos : $scope.roles,
+            roleDtos : $scope.roles.selectedOptions,
         };
 
 		var res;
@@ -158,7 +164,7 @@ var app = angular.module('app', [])
 		$scope.firstName = $scope.user.firstName;
 		$scope.lastName = $scope.user.lastName;
 		$scope.userName = $scope.user.userName;
-		$scope.roles = $scope.user.roleDtos;
+		$scope.roles.selectedOptions = $scope.user.roleDtos;
 	}
 
 });
