@@ -4,7 +4,7 @@
         <title>Users Spring Boot App | HTML5 Client</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 
         <!-- Bootstrap 4.1.0 -->
         <link rel="stylesheet"
@@ -135,14 +135,15 @@
                         <div class="form-group" ng-class="{ 'has-error': form.roleDtos.$invalid && form.$submitted}">
                             <label class="col-form-label col-xs-3" for="roleDtos">Roles:</label>
                             <div class="col-xs-5">
-                                <select id="roleDtos" class="form-control" multiple ng-model="roles.selectedOptions">
+                                <select id="roleDtos" class="form-control" ng-model="roles.selectedOptions" multiple>
                                     <option value="" disabled selected>Choose roles</option>
-                                    <option value="role.roleId" ng-value="role.roleName"
-                                            ng-repeat="role in roles.availableOptions">
+                                    <option ng-value="role" ng-repeat="role in roles.availableOptions">
                                         {{role.roleName}}
                                     </option>
                                 </select>
                             </div>
+                            <hr>
+                            <pre>roles = {{roles.selectedOptions | json}}</pre><br/>
                         </div>
                         <br><br>
                         <div>
