@@ -133,11 +133,12 @@
                         </div>
 
                         <div class="form-group" ng-class="{ 'has-error': form.roleDtos.$invalid && form.$submitted}">
-                            <label class="col-form-label col-xs-3" for="role">Roles:</label>
+                            <label class="col-form-label col-xs-3" for="roleDtos">Roles:</label>
                             <div class="col-xs-5">
-                                <select id="role" class="form-control" multiple>
+                                <select id="roleDtos" class="form-control" multiple ng-model="roles.selectedOptions">
                                     <option value="" disabled selected>Choose roles</option>
-                                    <option value="role.roleId" ng-repeat="role in roles" ng-model="roles">
+                                    <option value="role.roleId" ng-value="role.roleName"
+                                            ng-repeat="role in roles.availableOptions">
                                         {{role.roleName}}
                                     </option>
                                 </select>
