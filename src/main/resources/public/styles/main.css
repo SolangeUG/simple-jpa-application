@@ -28,19 +28,6 @@ html, body {
     margin-left: auto;
 }
 
-.peopleContent {
-    flex-grow: 2;
-}
-
-.peopleItem {
-    width: 350px;
-    border: 1px solid #777777;
-    background: #FAFAFA;
-    margin: 3px;
-    padding: 2px;
-    display: flex;
-}
-
 #appTitle {
     margin-left: 10px;
 }
