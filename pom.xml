@@ -75,7 +75,8 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<configuration>
+				<!-- In Debug Mode, allow reload of resources upon change -->
+                <configuration>
 					<addResources>true</addResources>
 				</configuration>
 			</plugin>
