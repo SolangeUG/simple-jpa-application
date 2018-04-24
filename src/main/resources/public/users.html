@@ -108,14 +108,13 @@
 
                         <div class="photos" ng-show="photo == null || photo.length == 0">
                             <img src="images/user-silhouette.png"/>
-                            <!--style="width:120px; height:120px"/>-->
                         </div>
 
                         <div class="form-group" ng-class="{ 'has-error': form.firstName.$invalid && form.$submitted}">
                             <label class="col-form-label col-xs-3" for="firstName">First Name:</label>
                             <div class="col-xs-5">
                                 <input type="text" id="firstName" name="firstName"
-                                       ng-model="firstName" value="" class="form-control" required autofocus="autofocus">
+                                       ng-model="firstName" value="" class="form-control" required autofocus>
                             </div>
                         </div>
                         <div class="form-group" ng-class="{ 'has-error': form.lastName.$invalid && form.$submitted}">
@@ -149,7 +148,7 @@
                             <button type="button" class="btn btn-danger" ng-click="showDivs(true)">
                                 <i class="fas fa-times"></i>
                             </button>
-                            <button type="button" class="btn btn-primary" ng-click="submitUser()">
+                            <button type="button" class="btn btn-primary" ng-click="submitUser()" autofocus>
                                 <i class="fas fa-check"></i>
                             </button>
                         </div>
