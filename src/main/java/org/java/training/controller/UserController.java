@@ -68,6 +68,7 @@ public class UserController {
     /**
      * Save a user
      * @param userDto user to save
+     * @return the saved user and appropriate HTTP response
      */
     @ResponseBody
     @PostMapping(value = "${application.api.users.endpoint}")
@@ -78,5 +79,21 @@ public class UserController {
         }
         return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
+
+    /**
+     * Update a user
+     * @param userDto user to update
+     * @return the updated user and appropriate HTTP response
+     */
+    @ResponseBody
+    @PutMapping(value = "${application.api.users.endpoint}")
+    public ResponseEntity<UserDto> updateUser(@RequestBody UserDto userDto) {
+        UserDto result = userService.updateUser(userDto);
+        if (result == null) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<>(result, HttpStatus.CREATED);
+    }
+
 
 }
