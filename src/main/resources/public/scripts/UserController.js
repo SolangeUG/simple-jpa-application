@@ -139,7 +139,7 @@ var app = angular.module('app', [])
         }, // on request error
             function(data, status, headers, config) {
                     alert( "failure message: " + JSON.stringify({data: data}));
-                }
+            }
 		);
 	}
 
@@ -147,10 +147,19 @@ var app = angular.module('app', [])
      * Search users
      */
 	$scope.searchUsers = function() {
-		$http.get($scope.userService + "/" + $scope.searchType + "/" + $scope.searchText)
-		    .then(function(response) {
-				$scope.users = response.data;
-			});
+	    var url = $scope.userService + "/" + $scope.searchType + "/" + $scope.searchText;
+		$http.get(url)
+		    .then(
+		        function(response) {
+                    $scope.users = response.data;
+                    $scope.showDivs(true);
+                    $scope.searchText = "";
+			}, // on request error
+			    function(data, status, headers, config) {
+			        $scope.users = [];
+			        $scope.showDivs(true);
+			    }
+			);
 	}
 
     /**
