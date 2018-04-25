@@ -103,8 +103,9 @@ var app = angular.module('app', [])
             );
 		} else {
 		    // update user
+		    addUser.userId = $scope.id;
 			res = $http.put(
-			        $scope.userService + "/" + $scope.id,
+			        $scope.userService,
 			        JSON.stringify(addUser),
 			        {headers: { 'Content-Type': 'application/json'}}
             );
@@ -160,15 +161,12 @@ var app = angular.module('app', [])
 		$scope.showPhoto = true;
 		$scope.formTitle = "Update User"
 
-		$scope.id = $scope.user.id;
+		$scope.id = $scope.user.userId;
 		$scope.photo = $scope.user.photo;
 		$scope.firstName = $scope.user.firstName;
 		$scope.lastName = $scope.user.lastName;
 		$scope.userName = $scope.user.userName;
 		$scope.roles.selectedOptions = $scope.user.roleDtos;
-
-		console.log("$scope.user.roleDtos are ", $scope.user.roleDtos);
-		console.log("$scope.roles.selectedOptions are ", $scope.roles.selectedOptions);
 	}
 
 });
