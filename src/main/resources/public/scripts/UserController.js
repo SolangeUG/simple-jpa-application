@@ -85,15 +85,10 @@ var app = angular.module('app', [])
      */
 	$scope.submitUser = function() {
 
-	    console.log("$scope.roles.selectedOptions are", $scope.roles.selectedOptions);
-	    console.log("$scope.roles.availableOptions are", $scope.roles.availableOptions);
-
 		var addUser = {
             firstName : $scope.firstName,
             lastName : $scope.lastName,
             userName : $scope.userName,
-
-            // TODO: make sure you get all the assigned roles
             roleDtos : $scope.roles.selectedOptions
         };
 
@@ -171,6 +166,9 @@ var app = angular.module('app', [])
 		$scope.lastName = $scope.user.lastName;
 		$scope.userName = $scope.user.userName;
 		$scope.roles.selectedOptions = $scope.user.roleDtos;
+
+		console.log("$scope.user.roleDtos are ", $scope.user.roleDtos);
+		console.log("$scope.roles.selectedOptions are ", $scope.roles.selectedOptions);
 	}
 
 });
