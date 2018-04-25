@@ -27,6 +27,7 @@ public interface UserService {
     /**
      * Save a user
      * @param userDto the given user
+     * @return the saved user
      */
     UserDto saveUser(UserDto userDto);
 
@@ -35,5 +36,12 @@ public interface UserService {
      * @return all users
      */
     List<UserDto> getAllUsers();
+
+    /**
+     * Update a user
+     * @param userDto the given user
+     * @return the updated user
+     */
+    UserDto updateUser(UserDto userDto);
 
 }

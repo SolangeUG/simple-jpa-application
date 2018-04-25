@@ -51,6 +51,7 @@ public class UserServiceImpl implements UserService {
      * Save a user
      *
      * @param userDto the given user
+     * @return the saved user
      */
     @Override
     public UserDto saveUser(UserDto userDto) {
@@ -71,5 +72,18 @@ public class UserServiceImpl implements UserService {
                 .stream()
                 .map(UserConverter::convert)
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * Update a user
+     *
+     * @param userDto the given user
+     * @return the updated user
+     */
+    @Override
+    public UserDto updateUser(UserDto userDto) {
+        User user = UserConverter.convert(userDto);
+        User updatedUser = userRepository.save(user);
+        return UserConverter.convert(updatedUser);
     }
 }
