@@ -48,6 +48,42 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
+     * Find a user by their firstname
+     *
+     * @param firstname the firstname
+     * @return the corresponding user
+     */
+    @Override
+    public List<UserDto> getUserByFirstName(String firstname) {
+        List<User> users = userRepository.findByFirstName(firstname);
+        if (users == null) {
+            return null;
+        }
+        return users
+                .stream()
+                .map(UserConverter::convert)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Find a user by their lastname
+     *
+     * @param lastname the lastname
+     * @return the corresponding user
+     */
+    @Override
+    public List<UserDto> getUserByLastName(String lastname) {
+        List<User> users = userRepository.findByLastName(lastname);
+        if (users == null) {
+            return null;
+        }
+        return users
+                .stream()
+                .map(UserConverter::convert)
+                .collect(Collectors.toList());
+    }
+
+    /**
      * Save a user
      *
      * @param userDto the given user
