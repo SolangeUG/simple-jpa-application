@@ -37,14 +37,14 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <ul class="navbar-nav mr-auto"></ul>
-                <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+                <form class="form-inline my-2 my-lg-0" name="search" novalidate ng-submit="searchUsers()">
+                    <input class="form-control mr-sm-2" type="text" placeholder="Search" ng-model="searchText">
                     <select id="searchType" class="form-control mr-sm-2 custom-select" ng-model="searchType">
                         <option selected>Choose...</option>
                         <option value="username">By username</option>
                         <option value="role">By role</option>
                     </select>
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit" ng-click="searchUsers()">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="button" ng-click="searchUsers()">
                         Search
                     </button>
                 </form>
