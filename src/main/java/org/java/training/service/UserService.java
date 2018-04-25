@@ -25,6 +25,20 @@ public interface UserService {
     UserDto getUserByUserName(String username);
 
     /**
+     * Find a user by their firstname
+     * @param firstname the firstname
+     * @return the corresponding user
+     */
+    List<UserDto> getUserByFirstName(String firstname);
+
+    /**
+     * Find a user by their lastname
+     * @param lastname the lastname
+     * @return the corresponding user
+     */
+    List<UserDto> getUserByLastName(String lastname);
+
+    /**
      * Save a user
      * @param userDto the given user
      * @return the saved user
