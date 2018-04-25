@@ -27,6 +27,7 @@ public class UserController {
      * @param userId the user id
      * @return the corresponding user
      */
+    @ResponseBody
     @GetMapping(value = "${application.api.users.endpoint}/id/{userId}")
     public ResponseEntity<UserDto> getUserById(@PathVariable("userId") Long userId) {
         UserDto userDto = userService.getUserById(userId);
@@ -95,5 +96,34 @@ public class UserController {
         return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
 
+    /**
+     * Return the user with a given firstname
+     * @param firstname the username
+     * @return the corresponding user
+     */
+    @ResponseBody
+    @GetMapping(value = "${application.api.users.endpoint}/firstname/{firstname}")
+    public ResponseEntity<List<UserDto>> getUserByFirstName(@PathVariable("firstname") String firstname) {
+        List<UserDto> userDtos = userService.getUserByFirstName(firstname);
+        if (userDtos == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(userDtos, HttpStatus.OK);
+    }
+
+    /**
+     * Return the user with a given lastname
+     * @param lastname the username
+     * @return the corresponding user
+     */
+    @ResponseBody
+    @GetMapping(value = "${application.api.users.endpoint}/lastname/{lastname}")
+    public ResponseEntity<List<UserDto>> getUserByLastName(@PathVariable("lastname") String lastname) {
+        List<UserDto> userDtos = userService.getUserByLastName(lastname);
+        if (userDtos == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(userDtos, HttpStatus.OK);
+    }
 
 }
