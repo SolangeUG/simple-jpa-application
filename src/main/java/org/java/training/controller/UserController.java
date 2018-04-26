@@ -47,7 +47,7 @@ public class UserController {
     public ResponseEntity<UserDto> getUserByUserName(@PathVariable("username") String username) {
         UserDto userDto = userService.getUserByUserName(username);
         if (userDto == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(userDto, HttpStatus.OK);
     }
