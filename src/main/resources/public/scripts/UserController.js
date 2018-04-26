@@ -16,6 +16,11 @@ var app = angular.module('app', [])
 	$scope.showListUsers = true;
 	$scope.showPhoto = false;
 	$scope.photo = false;
+
+	/**
+	 * Display list of users
+	 * or user creation form
+	 */
 	$scope.showDivs = function(userList) {
 		if (userList) {
 			$scope.showNewForm = false;
@@ -147,19 +152,20 @@ var app = angular.module('app', [])
      * Search users
      */
 	$scope.searchUsers = function() {
+	    $scope.showListUsers = false;
+
 	    var url = $scope.userService + "/" + $scope.searchType + "/" + $scope.searchText;
 		$http.get(url)
 		    .then(
-		        function(response) {
-                    $scope.users = response.data;
+		        function(data, status, headers, config) {
+		            if (data.data) {
+		                $scope.users = data.data;
+		            } else {
+		                $scope.users = [];
+		            }
                     $scope.showDivs(true);
                     $scope.searchText = "";
-			}, // on request error
-			    function(data, status, headers, config) {
-			        $scope.users = [];
-			        $scope.showDivs(true);
-			    }
-			);
+			});
 	}
 
     /**
